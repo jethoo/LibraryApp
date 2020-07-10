@@ -1,0 +1,48 @@
+<!--
+  Step 1: This is your descretion how you would like to display data,
+  but you must list all the documents in your resource collection.
+-->
+
+<%- include ('../partials/header') %>
+<div class="container my-5">
+    <header>
+        <h1>Archive</h1>
+    </header>
+    <hr>
+    <div class="content">
+        <% for (let book of books) { %>
+            <div class="card text-black border-success" style="width: 18rem;">
+                <img class="card-img-top" src="/images/coming.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title"><%= book.title%></h5>
+                  <% if(typeof book.user !== 'undefined') { %> 
+                    <p  class="card-text">Author: <%= book.user.fullname%></p>
+                    <a class="card-text" href="/books/<%= book.id %>">More...</a>
+                <% } %>
+                </div>
+               
+                <div class="card-footer">
+                  
+                  <small class="text-muted ">UpdatedAt: <%= book.updatedAt.toLocaleString() %></small>
+                <% if(authorized && (typeof book.user === 'undefined' || book.user.email === email)) { %>
+                  <a href="/books/<%= book.id %>/edit">
+                    <i class="fa fa-edit">: Edit</i>
+                </a>
+                &nbsp;/&nbsp;
+                <form class="form-inline" action="/books/delete" method="post"
+                onsubmit="return confirm('Are you sure you want to delete all your hard work?')">
+                    <input type="hidden" value="<%= book.id %>" name="id">
+                    <button type="submit" class="delete">
+                        <i class="fa fa-trash">: Delete</i>
+                    </button>
+                </form>
+                <% } %>
+              </div>
+                
+            </div><!--end of card div-->
+          
+          <% } %>
+    </div><!--end of content div-->
+</div><!--end of container-->
+
+<%- include ('../partials/footer') %>
