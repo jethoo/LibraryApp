@@ -1,0 +1,79 @@
+html,
+body, #root{
+  height: 100%;
+  width: 100%;
+  background-color: #6C5451;
+}
+
+header:not(.home-cta), .alert {
+  margin-top: 80px;
+}
+
+.home-cta {
+  background: url('./background.jpg');
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  background: url('./book.jpeg');
+  color:burlywood;
+  height:auto;
+  width:100%;
+}
+
+.home-cta::after {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  content: "";
+}
+
+.home-cta > h1 {
+  color: #fff;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+  font-size: 10rem;
+  text-align: center;
+  z-index: 1;
+}
+
+img{
+  width:160px;
+  height:200px;
+  object-fit: contain;
+}
+
+.content{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  
+}
+
+.showContent{
+  width:100%;
+}
+
+.card-footer small{
+  color:#333 !important;
+}
+
+button.delete{
+  border:none;
+  background: none;
+  color: #007bff;
+  padding-left: 0;
+}
+
+button.delete:hover{
+  color:#0056b3
+}
+
+hr{
+  background:burlywood !important;
+}

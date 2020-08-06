@@ -24,14 +24,10 @@ exports.index = async (req,res) => {
        .find()
        .populate('user')
        .sort({updatedAt: 'desc'});
-       console.log(books.firstName);
-       res.render(`${viewPath}/index`,{
-           pageTitle: 'Archive',
-           books: books
-       });
+       
+       res.status(200).json(books);
      } catch(error){
-        req.flash('danger',`There was an error displaying the archive: ${error}`);
-        res.redirect('/');
+        res.status(400).json({message: 'There was an error fetching the books', error});
      }
 };
 
@@ -40,15 +36,9 @@ exports.show = async (req,res) => {
       const books = await Books.findById(req.params.id)
          .populate('user'); //name of the model , 'user' is passed in populate
       //need to populate the user , to check the user is part of it
-     
-      res.render(`${viewPath}/show`, {
-          pageTitle: books.title,
-          books: books
-      });
+     res.status(200).json(books);
   } catch (error){
-      req.flash('danger', `There was an error displaying this 
-      book: ${error}`);
-      res.redirect('/');
+      res.status(400).json({message: "There was an error fetching the blog"});
   }
 };
 
@@ -64,12 +54,10 @@ exports.create = async (req,res) => {
     const {user:email} = req.session.passport;
     const user = await User.findOne({email:email});
     const book = await Books.create({user: user._id, ...req.body});
-    req.flash('success', 'Book created successfully');
-    res.redirect(`/books/${book.id}`);
+    
+    res.status(200).json({message:'The book was added successfully'});
   }catch(error){
-    req.flash('danger', `There was an error creating the book: ${error}`);
-    req.session.formData = req.body;
-    res.redirect('/books/new');
+    res.status(400).json({message:'There was an error added the book', error}); 
   }
 };
 
@@ -99,24 +87,19 @@ exports.update = async (req,res) => {
     await Books.validate(attributes);
     await Books.findByIdAndUpdate(attributes.id, attributes);
 
-    req.flash('success','The blog was updated successfully');
-    res.redirect(`/books/${req.body.id}`);
+    res.status(200).json({message: "The book has been updated successfully."});
   }
   catch(error){
-    req.flash('danger', `There was an error updating this book: ${error}`);
-    res.redirect(`/books/${req.body.id}/edit`);
+    res.status(400).json({message: "There was an error updating the book"});
   }
 };
 
 exports.delete = async (req,res) => {
   try{
     await Books.deleteOne({_id: req.body.id});
-    req.flash('success', 'Book was deleted successfully');
-    res.redirect(`/books`);
+    res.status(200).json({message: "Deleted."});
 }
 catch{
-    req.flash('danger', `There was an error deleting this 
-    book: ${error}`);
-    res.redirect(`/books`);
+  res.status(400).json({message: "There was an error deleting the book"});
 }
 };

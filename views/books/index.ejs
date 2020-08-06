@@ -23,7 +23,7 @@
                
                 <div class="card-footer">
                   
-                  <small class="text-muted ">UpdatedAt: <%= book.updatedAt.toLocaleString() %></small>
+                  <small class="text-muted ">UpdatedAt: <%= book.updatedAt.toLocaleString('en-CA') %></small>
                 <% if(authorized && (typeof book.user === 'undefined' || book.user.email === email)) { %>
                   <a href="/books/<%= book.id %>/edit">
                     <i class="fa fa-edit">: Edit</i>

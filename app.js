@@ -80,10 +80,17 @@ app.use('/', (req,res,next) => {
 */
 const routes = require('./routes.js');
 const { appendFileSync } = require('fs');
-app.use('/', routes);
+app.use('/api', routes);
+
+//instructions for production
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req,res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 /*
   Step 8: Start the server
 */
-const port = process.env.PORT || 3000;
+//for development port 4000 is used 
+const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
