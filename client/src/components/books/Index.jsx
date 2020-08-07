@@ -3,11 +3,12 @@ import { Container } from 'react-bootstrap';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+//import { json } from 'body-parser';
 
 const Index = function({user}) {
-    
-    const [books, setBooks] = useState([]);
 
+    const [books, setBooks] = useState([]);
+    
     useEffect(() => {
         (async () => {
             await getBooks();
@@ -19,6 +20,7 @@ const Index = function({user}) {
         if (booksResp.status === 200){
             setBooks(booksResp.data);
         };
+      
     };
 
     const deleteBook = async book => {
@@ -26,11 +28,9 @@ const Index = function({user}) {
             const resp = await Axios.post('/api/books/delete', {
                 id: book._id
             });
-    
             if (resp.status === 200) toast("The book was deleted successfully", {type: toast.TYPE.SUCCESS})
             ;
-
-           await getBooks();
+          await getBooks();
         } catch(error){
             toast("There was an error deleting the book",
             {type: toast.TYPE.ERROR});
@@ -49,6 +49,7 @@ const Index = function({user}) {
                 {books && books.map((book, i) => (
                     //because react is very specific about unique contents, therefore these cards we are creating
                     //in order to make them unique , we add key={i}
+              
                     <div key={i} className="card my-3">
                         <div className="card-header clearfix">
                         <img className="card-img-top" src="../coming.jpg" alt="Card image cap" />
@@ -72,9 +73,9 @@ const Index = function({user}) {
                              <strong> {book.price} </strong> dollars.
                         </p>
                     </div>
+
                     
-                    
-                    {user ? (
+                    {user._id === book.user._id ? (
                         <div className="card-footer">
                             <Link to={{
                                 pathname: "/books/edit",

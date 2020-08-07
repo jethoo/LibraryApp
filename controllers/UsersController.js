@@ -15,12 +15,9 @@ exports.create = async (req, res) => {
     // Step 1: Create the new user and register them with Passport
     const user = new User(req.body);
     await User.register(user, req.body.password);
-    req.flash('success', 'The user was successfully created');
-    res.redirect(`/login`);
+    
+    return res.status(200).json({message:"User created"});
   } catch (error) {
-    console.log('Errors');
-    req.flash('danger', error.message);
-    req.session.formData = req.body;
-    res.redirect(`${viewPath}/new`);
+    return res.status(401).json({message:"creation failed"});
   }
 };

@@ -13,8 +13,9 @@ const New = function (){
     });
 
     const [redirect, setRedirect ] = useState(false);
-    
+
     const handleSubmit = async event => {
+
         event.preventDefault();
 
         try {

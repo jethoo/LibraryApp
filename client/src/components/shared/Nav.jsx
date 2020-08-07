@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
 
 function Nav ({user}) {
+  //console.log("From nav User is :" + user.email);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand">Books</Link>
@@ -20,17 +21,15 @@ function Nav ({user}) {
           
           {user ? (
           <li className="nav-item dropdown">
-            <a href="" className="nav-link dropdown-toggle" id="blogsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <Link to="" className="nav-link dropdown-toggle" id="blogsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Books
-            </a>
+            </Link>
              <div className="dropdown-menu" aria-labelledby="blogsDropdown">
               <Link to="/books" className="dropdown-item">Archive</Link>
-
-              
-                <Fragment>
+              <Fragment>
                   <div className="dropdown-divider"></div>
                   <Link to="/books/new" className="dropdown-item">New Post</Link>
-                </Fragment>
+              </Fragment>
             </div>
           </li>
            ) : null}

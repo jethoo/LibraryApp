@@ -8,6 +8,7 @@ function auth (req,res,next) {
 }
 
 module.exports = router => {
+  
   router.get('/books', index); //public
   router.get('/books/new',auth, _new); //
   router.post('/books', auth,create);

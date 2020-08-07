@@ -77,3 +77,9 @@ button.delete:hover{
 hr{
   background:burlywood !important;
 }
+
+button {
+  color: #0069D9;
+  border: none;
+  background-color: #F7F7F7;
+}

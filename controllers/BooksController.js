@@ -18,6 +18,11 @@ const viewPath = 'books';
 const Books = require('../models/Books');
 const User = require('../models/User');
 
+const getUser = async req => {
+  const { user: email } = req.session.passport;
+  return await User.findOne({email: email});
+}
+
 exports.index = async (req,res) => {
      try{
        const books = await Books
@@ -50,11 +55,11 @@ exports.new = (req,res) => {
 
 exports.create = async (req,res) => {
   try{
-   
+    
     const {user:email} = req.session.passport;
     const user = await User.findOne({email:email});
     const book = await Books.create({user: user._id, ...req.body});
-    
+    console.log("Book is :" + book);
     res.status(200).json({message:'The book was added successfully'});
   }catch(error){
     res.status(400).json({message:'There was an error added the book', error}); 
@@ -77,18 +82,26 @@ exports.edit = async (req,res) => {
 
 exports.update = async (req,res) => {
   try{
-    const {user:email} = req.session.passport;
-    const user = await User.findOne({email:email});
-
-    let book = await Books.findById(req.body.id);
-    if (!book) throw new Error('Book could not be found');
+    
+    const { user:email } = req.session.passport;
+    const user = await User.findOne({email: email});
+    
+    //BLUNDER ERROR, I was passing "req.body.id " for finding the book, therefore i wasnot able to fetch the book
+    //But in the body it is stored as _id !!
+    //Because mongoose stores as _id 
+    let book = await Books.findById(req.body._id);
+    
+    if (!book) throw new Error(`Book could not be found, ${JSON.stringify(req.body)}`);
 
     const attributes = {user: user._id, ...req.body};
     await Books.validate(attributes);
-    await Books.findByIdAndUpdate(attributes.id, attributes);
-
-    res.status(200).json({message: "The book has been updated successfully."});
-  }
+    await Books.findByIdAndUpdate(attributes._id, attributes);
+   // await Books.findOneAndUpdate(attributes.id, attributes);
+   // await Books.updateOne({_id:req.body.id, user: user._id}, {...req.body});
+    console.log("Book is from Update controller"+ JSON.stringify(attributes));
+    console.log("Book is from Update controller"+ JSON.stringify(attributes._id));
+    res.status(200).json(book);
+  } 
   catch(error){
     res.status(400).json({message: "There was an error updating the book"});
   }
@@ -96,10 +109,11 @@ exports.update = async (req,res) => {
 
 exports.delete = async (req,res) => {
   try{
+
     await Books.deleteOne({_id: req.body.id});
     res.status(200).json({message: "Deleted."});
 }
-catch{
-  res.status(400).json({message: "There was an error deleting the book"});
-}
+  catch{
+    res.status(400).json({message: "There was an error deleting the book"});
+  }
 };

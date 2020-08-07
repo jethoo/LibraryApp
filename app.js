@@ -18,7 +18,8 @@ mongoose.connect(process.env.DB_URI, {
       },
       useCreateIndex:true,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
 }).catch(err => console.error(`Error: ${error}`));
 
 /*
@@ -80,6 +81,7 @@ app.use('/', (req,res,next) => {
 */
 const routes = require('./routes.js');
 const { appendFileSync } = require('fs');
+
 app.use('/api', routes);
 
 //instructions for production

@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Routes from './Routes';
 import Nav from './shared/Nav';
 import { ToastContainer } from 'react-toastify';
@@ -12,6 +12,8 @@ function App() {
     if (user) return JSON.parse(user);
     return false;
   }
+
+  //console.log("User currently in sessionStorage is :" + getUser());
 
   const [user, setUser] = useState(getUser());
 

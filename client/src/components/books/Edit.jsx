@@ -20,7 +20,7 @@ const Edit = function (props){
       (async () => {
           const bookResp = await Axios.get(`/api/books/${id}`);
           if(bookResp.status === 200 ) setInputs(bookResp.data);
-      })();
+      })()
   },[]);
 
     
@@ -41,7 +41,6 @@ const Edit = function (props){
                 type: toast.TYPE.ERROR
             });
         }
-        
     };
 
     const handleInputChange = async event => {
