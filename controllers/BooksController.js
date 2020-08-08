@@ -18,6 +18,7 @@ const viewPath = 'books';
 const Books = require('../models/Books');
 const User = require('../models/User');
 
+
 const getUser = async req => {
   const { user: email } = req.session.passport;
   return await User.findOne({email: email});
@@ -98,8 +99,6 @@ exports.update = async (req,res) => {
     await Books.findByIdAndUpdate(attributes._id, attributes);
    // await Books.findOneAndUpdate(attributes.id, attributes);
    // await Books.updateOne({_id:req.body.id, user: user._id}, {...req.body});
-    console.log("Book is from Update controller"+ JSON.stringify(attributes));
-    console.log("Book is from Update controller"+ JSON.stringify(attributes._id));
     res.status(200).json(book);
   } 
   catch(error){

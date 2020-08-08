@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Container } from 'react-bootstrap';
 import Axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+
 const Edit = function (props){
+
+    let history = useHistory();
 
     const id = props.location.state.id;
 
@@ -14,7 +17,7 @@ const Edit = function (props){
         price: ''
     });
 
-    const [redirect, setRedirect ] = useState(false);
+   // const [redirect, setRedirect ] = useState(false);
 
     useEffect(() => {
       (async () => {
@@ -34,7 +37,7 @@ const Edit = function (props){
                 toast("The book was updated succcessfully", {
                     type: toast.TYPE.SUCCESS
                 });
-                setRedirect(true);
+                history.push("/books");
             }
         } catch(error){
             toast("There was an issue updating the book", {
@@ -53,8 +56,6 @@ const Edit = function (props){
             [name]: value
         }));
     };
-
-    if (redirect) return (<Redirect to="/books"/>);
 
     return  (
         <Container className="my-5">
